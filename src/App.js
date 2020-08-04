@@ -29,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
 function App() {
   const classes = useStyles();
   const [posts, setPosts]=useState([]);
@@ -55,16 +56,17 @@ function App() {
        onClose={()=>setOpen(false)}>
 
      <div style={modalStyle} className={classes.paper}>
-     <form action="">
-    <center>
+
+
      <img className="modal__logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Instagram_logo.svg/1200px-Instagram_logo.svg.png" alt=""/>
-    <TextField value={username} onChange={(e)=>setUsername(e.target.value)} id="outlined-basic" type="username" label="Username" variant="outlined" />
-    <TextField value={email} onChange={(e)=>setEmail(e.target.value)} id="outlined-basic" type="email" label="Email" variant="outlined" />
-    <TextField value={password} onChange={(e)=>setPassword(e.target.value)} id="outlined-basic" type="password" label="Password" variant="outlined" />
-    <Button onClick={signup} variant="contained" disableElevation>Sign up</Button>
-    </center>
+     <form className="app__signup">
+     <div className="app__textfield"><TextField value={username} onChange={(e)=>setUsername(e.target.value)} id="outlined-basic" type="username" label="Username" variant="outlined" /></div>
+     <div className="app__textfield"><TextField value={email} onChange={(e)=>setEmail(e.target.value)} id="outlined-basic" type="email" label="Email" variant="outlined" /></div>
+     <div className="app__textfield"><TextField value={password} onChange={(e)=>setPassword(e.target.value)} id="outlined-basic" type="password" label="Password" variant="outlined" /></div>
+
+     <div className="app__modalbutton"> <Button onClick={signup} variant="contained" disableElevation>Sign up</Button></div>
     </form>
-  </div>
+ </div>
      </Modal>
     <div className="app__header">
         <img
@@ -73,11 +75,13 @@ function App() {
           alt=""/>
           <Button onClick={()=>setOpen(true)} color="primary" >Sign Up</Button>
   </div>
+  <div className="app__posts">
     {
       posts.map(({id,post})=>(
         <Post key={id} userName={post.userName} imageUrl={post.imageUrl} caption={post.caption}/>
       ))
     }
+    </div>
     </div>
   );
 }

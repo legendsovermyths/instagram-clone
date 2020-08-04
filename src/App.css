@@ -19,12 +19,27 @@
   object-fit: contain;
 }
 .modal__logo{
-
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 40%;
   height: 50px;
   object-fit: contain;
 
 }
-.modal__form{
+.app__signup{
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+ .app__textfield{
+
+  padding: 10px;
+}
+.app__posts{
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
