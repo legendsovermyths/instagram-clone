@@ -6,12 +6,25 @@
 
 }
 .app__header{
-  
+  display: flex;
+
   background: white;
+  justify-content: space-between;
   padding-left: 20px;
   padding-top: 14px;
+  padding-right: 20px;
   padding-bottom: 8px;
   object-fit: contain;
   border-bottom: 1px solid lightgray;
   object-fit: contain;
+}
+.modal__logo{
+
+  height: 50px;
+  object-fit: contain;
+
+}
+.modal__form{
+  display: flex;
+  flex-direction: column;
 }
