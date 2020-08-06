@@ -6,6 +6,7 @@ import Modal from '@material-ui/core/Modal';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import ImageUpload from "./ImageUpload"
 
 function getModalStyle() {
   const top = 50;
@@ -82,6 +83,7 @@ function App() {
   }
   return (
     <div className="App">
+    <ImageUpload/>
     <Modal
        open={openSignIn}
        onClose={()=>setOpenSignIn(false)}>
