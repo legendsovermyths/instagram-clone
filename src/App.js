@@ -1,7 +1,7 @@
 import React,{useState, useEffect} from 'react';
 import './App.css';
 import Post from "./Post"
-import {db} from "./firebase"
+import {db, auth} from "./firebase"
 import Modal from '@material-ui/core/Modal';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -33,13 +33,26 @@ const useStyles = makeStyles((theme) => ({
 function App() {
   const classes = useStyles();
   const [posts, setPosts]=useState([]);
+  const [openSignIn,setOpenSignIn]=useState(false);
   const [open, setOpen]=useState(false);
   const [modalStyle] = React.useState(getModalStyle);
-  const [username,setUsername]=useState('')
-  const [email,setEmail]=useState('')
-  const [password,setPassword]=useState('')
-
-
+  const [username,setUsername]=useState('');
+  const [email,setEmail]=useState('');
+  const [password,setPassword]=useState('');
+  const [user,setUser]= useState(null);
+  useEffect(()=>{
+    const unsubscribe=auth.onAuthStateChanged((authUser)=>{
+      if(authUser){
+        console.log(authUser);
+        setUser(authUser);
+       }else {
+        setUser(null);
+      }
+    })
+    return()=>{
+      unsubscribe();
+    }
+  },[user,username]);
   useEffect(()=>{
     db.collection('posts').onSnapshot(snapshot=>{
       setPosts(snapshot.docs.map(doc=>({
@@ -48,7 +61,19 @@ function App() {
       })))
     })
   },[])
-  const signup=()=>{}
+  const signup=(e)=>{
+    e.preventDefault();
+    auth
+    .createUserWithEmailAndPassword(email,password)
+    .then((authUser)=>{
+      return authUser.user.updateProfile({
+
+        displayName:username,
+      })
+    }
+  )
+    .catch((error)=>alert(error.message));
+  }
   return (
     <div className="App">
     <Modal
@@ -64,7 +89,7 @@ function App() {
      <div className="app__textfield"><TextField value={email} onChange={(e)=>setEmail(e.target.value)} id="outlined-basic" type="email" label="Email" variant="outlined" /></div>
      <div className="app__textfield"><TextField value={password} onChange={(e)=>setPassword(e.target.value)} id="outlined-basic" type="password" label="Password" variant="outlined" /></div>
 
-     <div className="app__modalbutton"> <Button onClick={signup} variant="contained" disableElevation>Sign up</Button></div>
+     <div className="app__modalbutton"> <Button type="submit" onClick={signup} variant="contained" disableElevation>Sign up</Button></div>
     </form>
  </div>
      </Modal>
@@ -73,7 +98,16 @@ function App() {
           className="app__headerImage"
           src="https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png"
           alt=""/>
-          <Button onClick={()=>setOpen(true)} color="primary" >Sign Up</Button>
+
+          {user?(
+            <Button onClick={()=>auth.signOut()} color="primary" >Logout</Button>
+          ):(
+            <div className="app__loginContainer">
+              <Button onClick={()=>setOpen(true)} color="primary" >Sign up</Button>
+              <Button onClick={()=>setOpen(true)} color="primary" >LogIn</Button>
+            </div>
+          )
+          }
   </div>
   <div className="app__posts">
     {
