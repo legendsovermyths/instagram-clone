@@ -21,7 +21,7 @@ function ImageUpload({ username }) {
     },
   }));
   const [caption, setCaption] = useState("");
-  const [progress, setProgress] = useState();
+  const [progress, setProgress] = useState(0);
   const [image, setImage] = useState("");
   const classes = useStyles();
   const handleChange = (e) => {
@@ -64,7 +64,11 @@ function ImageUpload({ username }) {
   };
   return (
     <div className='imageupload'>
-      <CircularProgress variant='static' value={progress} />
+      <CircularProgress
+        variant='static'
+        className='imageupload__circularProgress'
+        value={progress}
+      />
       <TextField
         id='standard-basic'
         placeholder='Enter a caption'
