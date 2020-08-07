@@ -83,7 +83,8 @@ function App() {
   }
   return (
     <div className="App">
-    <ImageUpload/>
+      {user?.displayName ?(<ImageUpload username={user.displayName}/>):""}
+    
     <Modal
        open={openSignIn}
        onClose={()=>setOpenSignIn(false)}>
@@ -137,7 +138,7 @@ function App() {
   <div className="app__posts">
     {
       posts.map(({id,post})=>(
-        <Post key={id} userName={post.userName} imageUrl={post.imageUrl} caption={post.caption}/>
+        <Post key={id} username={post.username} imageUrl={post.imageUrl} caption={post.caption}/>
       ))
     }
     </div>

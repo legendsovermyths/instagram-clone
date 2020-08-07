@@ -4,8 +4,11 @@ import TextField from '@material-ui/core/TextField';
 import IconButton from '@material-ui/core/IconButton';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import { makeStyles } from '@material-ui/core/styles';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import {storage, db} from './firebase';
+import firebase from "firebase"   
 
-function ImageUpload() {
+function ImageUpload({username}) {
   const useStyles = makeStyles((theme) => ({
     root: {
       '& > *': {
@@ -20,26 +23,56 @@ function ImageUpload() {
   const [progress,setProgress]=useState(0);
   const [image, setImage]=useState("")
   const classes = useStyles();
-  const handleChange=()=>{
-
+  const handleChange=(e)=>{
+    if (e.target.files[0]){
+      setImage(e.target.files[0])
+    }
   };
+  const handleUpload=()=>{
+    const uploadTask= storage.ref(`images/${image.name}`).put(image);
+    uploadTask.on(
+      "state_changed",
+      (snapshot)=>{
+        const progress = Math.round(
+          (snapshot.bytesTransferred/snapshot.totalBytes)*100
+        );
+        setProgress(progress);
+      },
+      (error)=>{
+        console.log(error);
+        alert(error.message);
+      },
+      ()=>{
+        storage
+          .ref("images")
+          .child(image.name)
+          .getDownloadURL()
+          .then(url=>{
+            db.collection("posts").add({
+              
+              caption:caption,
+              imageUrl:url,
+              username:username,
+
+            });
+            setProgress(0);
+            setCaption("");
+            setImage(null)
+          })
+      }
+    )
+  }
   return (
     <div>
       <TextField id="standard-basic" placeholder="Enter a caption" label="Caption" onChange={event=>setCaption(event.target.value)} />
       <div className={classes.root}>
-      <input
-        accept="image/*"
-        className={classes.input}
-        id="contained-button-file"
-        multiple
-        type="file"
-      />
-      <label htmlFor="contained-button-file">
-        <Button variant="contained" color="primary" component="span">
+      
+      <CircularProgress variant="static" value={progress} />
+      
+        <Button onClick={handleUpload}  variant="contained" color="primary" component="span">
           Upload
         </Button>
-      </label>
-      <input accept="image/*" className={classes.input} id="icon-button-file" type="file" />
+      <input onChange={handleChange} className={classes.input} id="icon-button-file" type="file" />
       <label htmlFor="icon-button-file">
         <IconButton color="primary" aria-label="upload picture" component="span">
           <PhotoCamera />
@@ -53,3 +86,4 @@ function ImageUpload() {
 }
 
 export default ImageUpload
+
