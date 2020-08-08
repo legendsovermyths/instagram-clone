@@ -17,12 +17,15 @@
   border-bottom: 1px solid lightgray;
   object-fit: contain;
 }
+.app__postsRight {
+  margin-left: 20px;
+}
 .modal__logo {
   display: block;
   margin-left: auto;
   margin-right: auto;
   width: 40%;
-  height: 50px;
+  height: 40px;
   object-fit: contain;
 }
 .app__signup {
@@ -36,13 +39,16 @@
 }
 .app__posts {
   display: flex;
-  flex-direction: column;
+
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
 }
 footer {
   display: inline-block;
   position: fixed;
   width: 100%;
   bottom: 0;
+}
+.app__headerImage {
+  padding-top: 7.5px;
 }
