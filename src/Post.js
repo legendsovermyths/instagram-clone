@@ -5,6 +5,7 @@ import { db } from "./firebase";
 
 function Post({ postId, imageUrl, caption, username }) {
   const [comments, setComments] = useState([]);
+  const [comment, setComment] = useState("");
   useEffect(() => {
     let unsubscribe;
     if (postId) {
@@ -20,6 +21,7 @@ function Post({ postId, imageUrl, caption, username }) {
       unsubscribe();
     };
   }, [postId]);
+  const postComment = (e) => {};
 
   return (
     <div className='post'>
@@ -32,6 +34,22 @@ function Post({ postId, imageUrl, caption, username }) {
         <strong> {username + " "}</strong>
         {caption}
       </h4>
+      <form className='post__commentBox'>
+        <input
+          className='post__input'
+          type='text'
+          placeholder='Add a comment...'
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
+        />
+        <button
+          className='post__button'
+          disabled={!comment}
+          onClick={postComment}
+          type='submit'>
+          Post
+        </button>
+      </form>
     </div>
   );
 }
