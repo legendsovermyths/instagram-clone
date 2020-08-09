@@ -6,7 +6,7 @@ import PhotoCamera from "@material-ui/icons/PhotoCamera";
 import { makeStyles } from "@material-ui/core/styles";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { storage, db } from "./firebase";
-import firebase, { firestore } from "firebase";
+import firebase from "firebase";
 import "./ImageUpload.css";
 
 function ImageUpload({ username }) {
