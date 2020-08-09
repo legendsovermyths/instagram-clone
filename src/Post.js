@@ -25,7 +25,7 @@ function Post({ user, postId, imageUrl, caption, username }) {
   }, [postId]);
   const postComment = (e) => {
     e.preventDefault();
-    db.collection("posts").doc("postId").collection("comments").add({
+    db.collection("posts").doc(postId).collection("comments").add({
       text: comment,
       username: user.displayName,
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
@@ -54,22 +54,24 @@ function Post({ user, postId, imageUrl, caption, username }) {
         ))}
       </div>
 
-      <form className='post__commentBox'>
-        <input
-          className='post__input'
-          type='text'
-          placeholder='Add a comment...'
-          value={comment}
-          onChange={(e) => setComment(e.target.value)}
-        />
-        <button
-          className='post__button'
-          disabled={!comment}
-          onClick={postComment}
-          type='submit'>
-          Post
-        </button>
-      </form>
+      {user && (
+        <form className='post__commentBox'>
+          <input
+            className='post__input'
+            type='text'
+            placeholder='Add a comment...'
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+          />
+          <button
+            className='post__button'
+            disabled={!comment}
+            onClick={postComment}
+            type='submit'>
+            Post
+          </button>
+        </form>
+      )}
     </div>
   );
 }

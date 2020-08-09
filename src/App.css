@@ -6,7 +6,9 @@
 }
 .app__header {
   display: flex;
-
+  position: sticky;
+  top: 0;
+  z-index: 1;
   background: white;
   justify-content: space-between;
   padding-left: 20px;
@@ -17,9 +19,10 @@
   border-bottom: 1px solid lightgray;
   object-fit: contain;
 }
-.app__postsRight {
+/* .app__postsRight {
   margin-left: 20px;
-}
+} */
+
 .modal__logo {
   display: block;
   margin-left: auto;
