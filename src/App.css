@@ -19,9 +19,9 @@
   border-bottom: 1px solid lightgray;
   object-fit: contain;
 }
-/* .app__postsRight {
+.app__postsRight {
   margin-left: 20px;
-} */
+}
 
 .modal__logo {
   display: block;
@@ -51,6 +51,7 @@ footer {
   position: fixed;
   width: 100%;
   bottom: 0;
+  height: 55px;
 }
 .app__headerImage {
   padding-top: 7.5px;
